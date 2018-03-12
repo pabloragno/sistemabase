@@ -19,7 +19,7 @@ class UserController extends Controller
 
     public function index()
     { 
-       return view('admin.users.index',compact('data'));  
+       return view('admin.users.index');  
     }
 
     public function getData()
@@ -28,10 +28,11 @@ class UserController extends Controller
        
         return Datatables::of($users)
             ->addColumn('action', function ($user) {
-                return '<a href="#edit-'.$user->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
-            })->make(true);
+                return '
+                        <button type="button" onclick="my('.$user->id.')" class="btn btn-success edit-user" data-toggle="modal" id="ed'.$user->id.'" data-target="#modal-edituser" iduser="'.$user->id.'"><i class="fa fa-pencil"></i></button>
+                        <a href="users/'.$user->id.'/delete" class="btn btn-danger"><i class="fa fa-trash"></i></a>';
+                        })->make(true);              
     }
-
     
     public function create()
     {
@@ -43,7 +44,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = User::create($request->all());
-        
+        dd($data);
         alert()->success('','Guardado con éxito')->autoclose(3000);
         return redirect()->route('users.index');
     }
@@ -54,10 +55,10 @@ class UserController extends Controller
         //
     }
 
-    
     public function edit($id)
     {
-        //
+        $user = User::find($id);    
+        return(compact('user'));
     }
 
     
@@ -66,9 +67,10 @@ class UserController extends Controller
         //
     }
 
-    
-    public function destroy($id)
+    public function dele($id)
     {
-        //
+        $user = User::find($id)->delete();
+        alert()->success('','Usuario borrado con éxito')->autoclose(3000);
+        return redirect()->route('users.index');
     }
 }

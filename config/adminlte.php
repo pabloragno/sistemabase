@@ -128,9 +128,9 @@ return [
             'icon' => 'user',
         ],
         [
-            'text' => 'Change Password',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
+            'text' => 'Mosaico',
+            'url'  => 'mosaico',
+            'icon' => 'table',
         ],
         [
             'text'    => 'Multilevel',
