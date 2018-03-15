@@ -9,9 +9,7 @@
 @section('content')
 
 	@include('admin.users.partials.modal_create')
-	<!-- /.box-header 
-  
-     -->
+  @include('admin.users.partials.modal_edit')
    
 	<div class="box">
     <div class="box-header">

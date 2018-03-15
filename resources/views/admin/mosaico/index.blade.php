@@ -8,15 +8,13 @@
 
 @section('content')
 
-	@include('admin.users.partials.modal_create')
-	<!-- /.box-header 
-  
-     -->
-   
+	@include('admin.mosaico.partials.modal_create')
+
+ 
 	<div class="box">
     <div class="box-header">
-      <h3 class="box-title">Semana 800 </h3>
-      <small><b>  - 10/10/2018 al 16/10/2018 - </b></small>
+      <h3 class="box-title">Semana {{ $semana->numero }} </h3>
+      <small><b>  - {{ $semana->desde->format('l d \\ F Y') }} --  al  -- {{ $semana->hasta->format('l d \\ F Y') }} - </b></small>
       <h3 class="box-title pull-right">Total: $ 2032,45 </h3>
     </div>
      <div class="row">
@@ -24,16 +22,27 @@
               <!-- Custom Tabs -->
               <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs">
-                  <li class="active"><a href="#tab_1" data-toggle="tab">Lun 10/10/2018<p style align="center">
-                    
-                  $ 450</p></a></li>
-                  <li><a href="#tab_2" data-toggle="tab">Mar 11/10/2018</a></li>
-                  <li><a href="#tab_3" data-toggle="tab">Mié 12/10/2018</a></li>
-                  <li><a href="#tab_4" data-toggle="tab">Jue 13/10/2018</a></li>
-                  <li><a href="#tab_5" data-toggle="tab">Vie 14/10/2018</a></li>
-                  <li><a href="#tab_6" data-toggle="tab">Sab 15/10/2018</a></li>
-                  <li><a href="#tab_7" data-toggle="tab">Dom 16/10/2018</a></li>
+                  @for($i = 1; $i < 8; $i++)
+                    @if($i == 1)
+                      <li class="active">
+                        <a href="#tab_1" data-toggle="tab">
+                          <p style align="center"><b>{{ $semana->desde->format('l') }}</b></p>
+                          <p style align="center">{{ $semana->desde->format('d/m/Y') }}</p>
+                          <p style align="center">$ 450</p>
+                        </a>
+                      </li>
+                    @else
+                      <li>
+                        <a href="{{ "#tab_".$i}}" data-toggle="tab">
+                          <p style align="center"><b>{{ $semana->desde->addDay($i-1)->format('l') }}</b></p>
+                          <p style align="center">{{ $semana->desde->addDay($i-1)->format('d/m/Y') }}</p>
+                          <p style align="center">$ 450</p>
+                        </a>
+                      </li>
+                    @endif
+                  @endfor
                 </ul>
+                
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
                     <div class="row">
@@ -57,7 +66,7 @@
                                 </div>
                                 <div id="collapseOne" class="panel-collapse collapse in">
                                   <div class="box-body">
-                                    <button type="button" class="btn btn-sm btn-success pull-right"><i class="fa fa-plus"></i> Agregar</button>
+                                    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal-adduser"><i class="fa fa-plus"></i></button>
                                     <table class="table table-bordered">
                                       <tr>
                                         <th>Acción</th>
@@ -247,7 +256,10 @@
 	        ]
 	    })
 	})
-	
+	$(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+  })
 		
 	  
 </script>

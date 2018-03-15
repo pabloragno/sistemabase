@@ -29,7 +29,7 @@ class UserController extends Controller
         return Datatables::of($users)
             ->addColumn('action', function ($user) {
                 return '
-                        <button type="button" onclick="my('.$user->id.')" class="btn btn-success edit-user" data-toggle="modal" id="ed'.$user->id.'" data-target="#modal-edituser" iduser="'.$user->id.'"><i class="fa fa-pencil"></i></button>
+                        <button type="button" onclick="my('.$user->id.')" class="btn btn-success edit-user" data-toggle="modal" id="ed'.$user->id.'" data-target="#modal_edit" iduser="'.$user->id.'"><i class="fa fa-pencil"></i></button>
                         <a href="users/'.$user->id.'/delete" class="btn btn-danger"><i class="fa fa-trash"></i></a>';
                         })->make(true);              
     }
