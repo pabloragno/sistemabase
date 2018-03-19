@@ -55,94 +55,21 @@
                           <div class="box-body">
                             <div class="box-group" id="accordion">
                               <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
-                              <div class="panel box box-primary">
-                                <div class="box-header with-border">
-                                  <h4 class="box-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                      Menu Principal "A"
-                                    </a>
-                                  </h4>
-                                  <h4 class="box-title pull-right"><b>Total: $ 33,50</b></h4>
-                                </div>
-                                <div id="collapseOne" class="panel-collapse collapse in">
-                                  <div class="box-body">
-                                    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#modal-adduser"><i class="fa fa-plus"></i></button>
-                                    <table class="table table-bordered">
-                                      <tr>
-                                        <th>Acción</th>
-                                        <th>Categoria</th>
-                                        <th>Receta</th>
-                                        <th>Observaciones</th>
-                                        <th>Precio</th>
-                                      </tr>
-                                      <tr>
-                                        <td>                                        
-                                        <button type="button" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></button>
-                                        <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                        </td>
-                                        <td>Proteina</td>
-                                        <td>Carne al horno</td>
-                                        <td>Agregar mas papas </td>
-                                        <td align="right">$ 13,40</td>
-                                      </tr>
-                                      <tr>
-                                        <td>                                        
-                                        <button type="button" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></button>
-                                        <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                        </td>
-                                        <td>Salsas</td>
-                                        <td>Salsa de Hongos</td>
-                                        <td>Sin Observaciones</td>
-                                        <td align="right">$ 10,10</td>
-                                      </tr>
-                                      <tr>
-                                        <td>                                        
-                                        <button type="button" class="btn btn-sm btn-info"><i class="fa fa-pencil"></i></button>
-                                        <button type="button" class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
-                                        </td>
-                                        <td>Guarnición</td>
-                                        <td>Papas</td>
-                                        <td>Cortar las papas en cuadrados</td>
-                                        <td align="right">$ 10,00 </td>
-                                      </tr>
-                                    </table>  
+                              @foreach($platos as $plato)
+                                <div class="panel box box-info">
+                                  <div class="box-header with-border">
+                                    <h4 class="box-title">
+                                      <a data-toggle="collapse" data-parent="#accordion" href="#{{ "collapse".$plato->codigo }}" id="{{ $plato->codigo }}">
+                                        ( Cod:{{ $plato->codigo }}) - {{ $plato->name }} 
+                                      </a>
+                                    </h4>
+                                    <h4 class="box-title pull-right"><b>Total: $ 33,50</b></h4>
                                   </div>
+                                  <div id="{{ "collapse".$plato->codigo }}" class="panel-collapse collapse"
+                                  ></div>
                                 </div>
-                              </div>
-                              
-                              <div class="panel box box-danger">
-                                <div class="box-header with-border">
-                                  <h4 class="box-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                      Menu Principal "A" (Sin Sal)
-                                    </a>
-                                  </h4>
-                                  <h4 class="box-title pull-right"><b>Total: $ 33,50</b></h4>
-                                </div>
-                                <div id="collapseTwo" class="panel-collapse collapse">
-                                  <div class="box-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-                                  </div>
-                                </div>
-                              </div>
-                              
-                              <div class="panel box box-success">
-                                <div class="box-header with-border">
-                                  <h4 class="box-title pull-left" >
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                                      Menú Principal "B"
-                                    </a>
-                                  </h4>
-                                  <h4 class="box-title pull-right"><b>Total: $ 33,50</b></h4>
-
-                                </div>
-                                <div id="collapseThree" class="panel-collapse collapse">
-                                  <div class="box-body">
-                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-                                  </div>
-                                </div>
-                              </div>
-                            
+                              @endforeach()
+                                                          
                             </div>
                           </div>
                                 <!-- /.box-body -->
@@ -223,45 +150,40 @@
 @stop
 
 @section('js')
-   <script>
-   	function my(id){
-   		var $url = "users/"+id+"/edit";
-   		console.log($url);
-   		$.ajax({
-   			url: $url, 
-   			success: function(result){
-            	console.log(result);
-        }});
-   		
-   	}
-   	
-	$(function () {
-	    $('#users').DataTable({
-	      	'paging'      : true,
-	      	'lengthChange': true,
-	      	'searching'   : true,
-	     	'ordering'    : true,
-	      	'info'        : true,
-	      	'processing'  : true,
-	      	'serverSide'  : true,
-	      	'language'    : {
-	    					'url' : '{{ asset ('dataTable_traduc/es_data.lang') }}'
-		  					},
-		  	'ajax'      : 'getUsers',
-		  	'columns'   : [
-			    {data: 'id', name: 'id'},
-		        {data: 'name', name: 'name'},
-		        {data: 'email', name: 'email'},
-	            {data: 'action', name: 'action', orderable: false, searchable: false}
-	        ]
-	    })
-	})
-	$(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-  })
-		
-	  
-</script>
+  <script>
+    $(function () {
+      //Initialize Select2 Elements
+      $('.select2').select2()
+    })
+    
+    $('.tab-content').click(function(e){
+      var idaccordion = e.target.id;
+      
+      if (idaccordion != ""){
+        tablasDicamicas(idaccordion);  
+      }
+    })
+    
+    function contenidoDivs($cont, $idaccor){
+      $('#collapse'+$idaccor).empty();
+      $('#collapse'+$idaccor).append($cont);
+    }
+
+    function tablasDicamicas($id){
+      $.ajax({
+        url: 'getUsers', 
+        success: function(result){
+        //console.log(result.data[0].name);
+        var fila = "<div class='box-body'><table id='t"+$id+"' class='table table-bordered table-striped'><thead><th>ID</th><th>Nombre</th><th>Mail</th><th>Acción</th></thead><tbody>";
+        
+        $('#collapse'+$id).append(
+          $.each(result.data, function(i, item) {
+            fila = fila + "<tr><td>"+result.data[i].id+"</td><td>"+result.data[i].name+"</td><td>"+result.data[i].email+"</td><td><button type='button' class='btn btn-sm btn-info'><i class='fa fa-pencil'></i></button><button type='button' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button></td></tr>"
+          }))
+          fila = fila + "</tbody></table></div></div>";            
+          contenidoDivs(fila, $id);
+      }});
+    }
+  </script>
 @stop
 
